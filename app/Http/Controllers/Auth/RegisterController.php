@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Notifications\NewUser;
 use App\User;
+use App\Course;
+use App\Order;
+
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -51,9 +56,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'nsu_id' => ['required', 'integer', 'max:999999999'],
+            // 'nsu_id' => ['required', 'integer', 'max:999999999'],
+            'nsu_id' => 'required',
             'course' => ['required', 'string', 'max:255'],
             'section' => ['required', 'integer', 'max:999'],
+            'class_start' => ['required', 'string', 'max:255'],
+            'class_end' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -67,20 +75,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+            //    $user = User::create([
+    //        'name' => $request->input('name'),
+    //        'nsu_id' => $request->input('nsu_id'),
+    //        'email' => $request->input('email'),
+    //        'password' => Hash::make($request['password']),
+    //    ]);
+        $x= User::create([
             'name' => $data['name'],
             'nsu_id' => $data['nsu_id'],
-            'course' => $data['course'],
-            'section' => $data['section'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-    
-        $admin = User::where('admin', 1)->first();
-        if ($admin) {
-            $admin->notify(new NewUser($user));
-        }
-    
+        $time = $data['class_start'];
+        $date = date_format(date_create($time),'H:i:s');   
+        $y= Course::create([ 
+                'nsu_id' => $data['nsu_id'],
+                'course' => $data['course'],
+                'section' => $data['section'],
+                'class_start' => $date,
+                'class_end' => $data['class_end'],
+            ]);
+
+         $admin = User::where('admin', 1)->first();
+         if ($admin) {
+             $admin->notify(new NewUser($user));
+         }
+   
         return $user;
     }
 }
