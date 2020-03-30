@@ -32,19 +32,20 @@
                                                     <tr>
                                                         <th>Priority No.</th>
                                                         <th>NSU ID</th>
+                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if($orders->count())
-                                                        @foreach($orders as $order)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration }}</td>
-                                                                <td>{{ $order->nsu_id }}</td>
-                                                                <td><a href="#" class="btn btn-danger">Delete</a></td>
-                                                            </tr>
+                                                        @foreach ($courses as $course)
+                                                        <tr>
+                                                           <td>{{ $loop->iteration }}</td>
+                                                           <td>{{$course->nsu_id}}</td>
+                                                           <td>{{'Pending'}}</td>
+                                                           <td><a href="#" class="btn btn-danger">Delete</a></td>
+                                                           {{-- <td>{{date("H:i:s",time() - 6*3600)}}</td> --}}
+                                                        </tr>
                                                         @endforeach
-                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
