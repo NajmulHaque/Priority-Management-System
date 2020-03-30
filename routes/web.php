@@ -37,7 +37,7 @@ Route::get('/pdashboard','OrderController@success');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::post('/xyz','Auth\RegisterController@store')->name('xyz');
 Route::middleware(['auth'])->group(function () {
     Route::get('/approval', 'HomeController@approval')->name('approval');
     Route::middleware(['approved'])->group(function () {

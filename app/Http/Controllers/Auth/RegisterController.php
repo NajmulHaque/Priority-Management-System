@@ -97,11 +97,44 @@ class RegisterController extends Controller
                 'class_end' => $data['class_end'],
             ]);
 
-         $admin = User::where('admin', 1)->first();
-         if ($admin) {
-             $admin->notify(new NewUser($user));
-         }
+        //  $admin = User::where('admin', 1)->first();
+        //  if ($admin) {
+        //      $admin->notify(new NewUser($user));
+        //  }
    
-        return $user;
+        //return $user;
+        return redirect()->to('/login');
     }
+    public function store(Request $request) {
+        $this->validate($request, [
+           'name' => ['required', 'string', 'max:255'],
+           'nsu_id' => 'required',
+        //    'nsu_id' => ['required', 'integer', 'max:999999999'],
+           'course' => ['required', 'string', 'max:255'],
+           'section' => ['required', 'integer', 'max:999'],
+           'class_start' => ['required', 'string', 'max:255'],
+           'class_end' => ['required', 'string', 'max:255'],
+           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+           'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $user = User::create([
+            'name' => $request->input('name'),
+            'nsu_id' => $request->input('nsu_id'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request['password']),
+        ]);
+
+       $time = $request->input('class_start');
+       $date = date_format(date_create($time),'H:i:s'); 
+
+         $content = Course::create([
+             'nsu_id' => $user->nsu_id, 
+             'course' => $request->input('course'),
+             'section' => $request->input('section'),
+             'class_start' => $date,
+             'class_end' => $request->input('class_end'),
+         ]);
+
+     return redirect()->to('/login');
+     }
 }
