@@ -6,7 +6,9 @@ use App\Notifications\NewUser;
 use App\User;
 use App\Course;
 use App\Order;
-
+use DateTime;
+use DateTimezone;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -105,35 +107,58 @@ class RegisterController extends Controller
         //return $user;
         return redirect()->to('/login');
     }
+    // public function store(Request $request) {
+    //     $this->validate($request, [
+    //        'name' => ['required', 'string', 'max:255'],
+    //        'nsu_id' => 'required',
+    //     //    'nsu_id' => ['required', 'integer', 'max:999999999'],
+    //        'course' => ['required', 'string', 'max:255'],
+    //        'section' => ['required', 'integer', 'max:999'],
+    //        'class_start' => ['required', 'string', 'max:255'],
+    //        'class_end' => ['required', 'string', 'max:255'],
+    //        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //     ]);
+    //     $user = User::create([
+    //         'name' => $request->input('name'),
+    //         'nsu_id' => $request->input('nsu_id'),
+    //         'email' => $request->input('email'),
+    //         'password' => Hash::make($request['password']),
+    //     ]);
+
+    //    $time = $request->input('class_start');
+    //    $date = date_format(date_create($time),'H:i:s'); 
+
+    //      $content = Course::create([
+    //          'nsu_id' => $user->nsu_id, 
+    //          'course' => $request->input('course'),
+    //          'section' => $request->input('section'),
+    //          'class_start' => $date,
+    //          'class_end' => $request->input('class_end'),
+    //      ]);
+
+    //  return redirect()->to('/login');
+    //  }
     public function store(Request $request) {
-        $this->validate($request, [
-           'name' => ['required', 'string', 'max:255'],
-           'nsu_id' => 'required',
-        //    'nsu_id' => ['required', 'integer', 'max:999999999'],
-           'course' => ['required', 'string', 'max:255'],
-           'section' => ['required', 'integer', 'max:999'],
-           'class_start' => ['required', 'string', 'max:255'],
-           'class_end' => ['required', 'string', 'max:255'],
-           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-           'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-        $user = User::create([
-            'name' => $request->input('name'),
-            'nsu_id' => $request->input('nsu_id'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request['password']),
-        ]);
 
-       $time = $request->input('class_start');
-       $date = date_format(date_create($time),'H:i:s'); 
-
-         $content = Course::create([
-             'nsu_id' => $user->nsu_id, 
-             'course' => $request->input('course'),
-             'section' => $request->input('section'),
-             'class_start' => $date,
-             'class_end' => $request->input('class_end'),
-         ]);
+       $user = User::create([
+           'name' => $request->input('name'),
+           'nsu_id' => $request->input('nsu_id'),
+           'email' => $request->input('email'),
+           'password' => Hash::make($request['password']),
+       ]);
+       $nsu_id=$request->nsu_id;
+       if (count($request->course)>0) {
+           foreach($request->course as $item => $value)
+               $data[$value]=array(
+                   'nsu_id'=>$nsu_id,
+                   'course'=>$request->course[$item],
+                   'section'=>$request->section[$item],
+                   'class_start'=>$request->class_start[$item],
+                   'class_end'=>$request->class_end[$item],
+               );
+               Course::insert($data);
+       }
 
      return redirect()->to('/login');
      }

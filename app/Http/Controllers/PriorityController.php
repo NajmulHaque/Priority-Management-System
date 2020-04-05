@@ -26,19 +26,16 @@ class PriorityController extends Controller
         }
     }
     public function orderList()
-    {
-        // if (Auth::check()){
-        //     $self_id =  Auth::user()->id; 
-        //     //dd($self_id); 
-        //     $orders = DB::table('orders')->orderBy('updated_at', 'asc')->get();
-        //     return view('orderList')->with('orders',$orders);
-        // }
+    {   
+
         $date = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-        $courses=Course::with('order')
-             ->join('orders', 'orders.nsu_id', '=', 'courses.nsu_id')
-             ->select('orders.*','courses.class_start') // Avoid selecting everything from the stocks table
-             ->where("class_start", "<=", $date->format('G:i a'))
-             ->orderBy('courses.class_start', 'ASC')
+        $now=DATE_FORMAT($date,'H:i a');
+        //dd($now);
+        $courses=Course::join('orders', 'orders.nsu_id', '=', 'courses.nsu_id')
+             ->select('orders.nsu_id', DB::raw("DATE_FORMAT(MIN(STR_TO_DATE(CONCAT('2020-04-05 ', class_start), '%Y-%m-%d %h:%i %p')), '%H:%i %p') AS class_start"))
+             ->where('courses.class_start', '>', $now)
+             ->groupBy('orders.nsu_id')
+             ->orderBy('class_start', 'ASC')
              ->get();
         return view('orderList',compact('courses'));
     }

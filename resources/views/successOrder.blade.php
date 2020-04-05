@@ -14,9 +14,9 @@
                         </div>
                     @endif
                        <div>
-                        <h1 class="text-left">
+                        {{-- <h1 class="text-left">
                             <a type="button" class="btn btn-primary" href="/home"><b>Home</b></a>
-                        </h1>
+                        </h1> --}}
                             <h1 class="text-right">
                                 <a type="button" class="btn btn-primary" href="/pdashboard"><b>Priority Dashboard</b></a>
                             </h1>

@@ -42,14 +42,19 @@ class OrderController extends Controller
     
     public function success()
     {
+
         $date = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-        //$date=date("H:i:s",time() - 6*3600);
-        $courses=Course::with('order')
-             ->join('orders', 'orders.nsu_id', '=', 'courses.nsu_id')
-             ->select('orders.*','courses.class_start') // Avoid selecting everything from the stocks table
-             ->where("class_start", "<=", $date->format('G:i a'))
-             ->orderBy('courses.class_start', 'ASC')
-             ->get();
+        //$now=$date->format('h:i a');
+        $now=DATE_FORMAT($date,'h:i a');
+        //dd($now);
+        $courses = Course::join('orders', 'orders.nsu_id', '=', 'courses.nsu_id')
+        // ->select('orders.nsu_id', DB::raw('MIN(courses.class_start) AS class_start'))
+        //->select('orders.nsu_id', DB::raw("MIN(STR_TO_DATE(class_start, '%h:%i %p')) AS class_start"))
+        ->select('orders.nsu_id', DB::raw("DATE_FORMAT(MIN(STR_TO_DATE(CONCAT('2020-04-05 ', class_start), '%Y-%m-%d %h:%i %p')), '%H:%i %p') AS class_start"))
+        ->where('courses.class_start', '>', $now)
+        ->groupBy('orders.nsu_id')
+        ->orderBy('class_start', 'DESC')
+        ->get();
         return view('priorityDashboard',compact('courses'));
     }
 }

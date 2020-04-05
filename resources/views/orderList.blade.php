@@ -41,9 +41,8 @@
                                                         <tr>
                                                            <td>{{ $loop->iteration }}</td>
                                                            <td>{{$course->nsu_id}}</td>
-                                                           <td>{{'Pending'}}</td>
+                                                           <td>{{$course->class_start}}</td>
                                                            <td><a href="#" class="btn btn-danger">Delete</a></td>
-                                                           {{-- <td>{{date("H:i:s",time() - 6*3600)}}</td> --}}
                                                         </tr>
                                                         @endforeach
                                                 </tbody>
