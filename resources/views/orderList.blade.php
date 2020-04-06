@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -42,7 +42,13 @@
                                                            <td>{{ $loop->iteration }}</td>
                                                            <td>{{$course->nsu_id}}</td>
                                                            <td>{{$course->class_start}}</td>
-                                                           <td><a href="#" class="btn btn-danger">Delete</a></td>
+                                                           <td>
+                                                                    <a href="delete/{{ $course->nsu_id }}">
+                                                                        <button class="btn btn-xs" onclick="return confirm('Do you want to delete?');">
+                                                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </a>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                                 </tbody>
@@ -57,4 +63,5 @@
         </div>
     </div>
 </div>
+
 @endsection

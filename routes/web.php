@@ -64,3 +64,4 @@ Route::post('login2', 'Auth\LoginController2@login');
 Route::post('logout2', 'Auth\LoginController2@logout')->name('logout2');
 
 Route::post('/order','OrderController@order');
+Route::get('delete/{nsu_id}','PriorityController@delete');
