@@ -24,7 +24,7 @@
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10 textbody">
-                                    <h3 class="text-center p-2 text-info" style="font-size: 23px;">Student Order Request</h3>
+                                    <h3 class="text-center p-2 text-info" style="font-size: 23px;">Students Order Request</h3>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <table class="table table-bordered table-striped">
@@ -44,7 +44,7 @@
                                                            <td>{{$course->class_start}}</td>
                                                            <td>
                                                                     <a href="delete/{{ $course->nsu_id }}">
-                                                                        <button class="btn btn-xs" onclick="return confirm('Do you want to delete?');">
+                                                                        <button class="btn btn-xs" onclick="return confirm('Are you sure?');">
                                                                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                                                         </button>
                                                                     </a>

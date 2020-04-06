@@ -12,6 +12,7 @@ use App\Course;
 use DB;
 use DateTime;
 use DateTimezone;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -56,5 +57,9 @@ class OrderController extends Controller
         ->orderBy('class_start', 'DESC')
         ->get();
         return view('priorityDashboard',compact('courses'));
+    }
+    public function deleteOrder()
+    {
+        //$xyz=DELETE FROM 'orders' WHERE 'timestamp' &gt; DATE_SUB(NOW(), INTERVAL 10 MINUTE);
     }
 }
