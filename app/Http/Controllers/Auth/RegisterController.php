@@ -141,17 +141,28 @@ class RegisterController extends Controller
     //  }
     public function store(Request $request) {
 
-       $user = User::create([
-           'name' => $request->input('name'),
-           'nsu_id' => $request->input('nsu_id'),
-           'email' => $request->input('email'),
-           'password' => Hash::make($request['password']),
-       ]);
+        if($request->hasfile('advising_slip_img')){
+            $file=$request->file('advising_slip_img');
+            $extension=$file->getClientOriginalExtension();
+            $filename=time() . '.' .$extension;
+            $file->move('images',$filename);
+        }
+    
+    
+           $user = User::create([
+               'name' => $request->input('name'),
+               'nsu_id' => $request->input('nsu_id'),
+               'email' => $request->input('email'),
+               'advising_slip_img'=> $filename,
+               'password' => Hash::make($request['password']),
+           ]);
+
        $nsu_id=$request->nsu_id;
        if (count($request->course)>0) {
            foreach($request->course as $item => $value)
                $data[$value]=array(
                    'nsu_id'=>$nsu_id,
+                   'user_id'=>$user->id,
                    'course'=>$request->course[$item],
                    'section'=>$request->section[$item],
                    'class_start'=>$request->class_start[$item],
@@ -160,6 +171,6 @@ class RegisterController extends Controller
                Course::insert($data);
        }
 
-     return redirect()->to('/login');
+     return redirect()->to('/successReg');
      }
 }

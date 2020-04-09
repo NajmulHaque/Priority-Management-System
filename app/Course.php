@@ -8,7 +8,7 @@ class Course extends Model
 {
     protected $table='courses';
     protected $fillable=[
-      'nsu_id','course', 'section','class_start','class_end'
+      'user_id','nsu_id','course', 'section','class_start','class_end'
     ];
     public function users()
     {

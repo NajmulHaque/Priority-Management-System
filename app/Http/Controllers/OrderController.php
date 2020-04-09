@@ -58,8 +58,5 @@ class OrderController extends Controller
         ->get();
         return view('priorityDashboard',compact('courses'));
     }
-    public function deleteOrder()
-    {
-        //$xyz=DELETE FROM 'orders' WHERE 'timestamp' &gt; DATE_SUB(NOW(), INTERVAL 10 MINUTE);
-    }
+    
 }

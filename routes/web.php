@@ -33,6 +33,10 @@ Route::get('/successOrder',function()
 // });
 //Route::get('/pdashboard','PriorityController@order');
 Route::get('/pdashboard','OrderController@success');
+Route::get('/successReg',function ()
+{
+    return view('successReg');
+});
 
 Auth::routes();
 
