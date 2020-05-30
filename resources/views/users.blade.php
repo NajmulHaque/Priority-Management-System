@@ -1,18 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="margin-top: ">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-left">Users List to Approve</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a href="/adminDashboard" class=" btn btn-info">Back</a>
+                        </div>
+                    </div>
+
+                </div>
 
                 <div class="card-body">
-                    @if (session('status'))
+                    @if (session('message'))
                         <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                            {{ session('message') }}
                         </div>
                     @endif
+
                     <table class=" table table-bordered table-striped table-hover datatable datatable-Order">
                         <thead>
                             <tr>
@@ -35,16 +46,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($xyz as $order)
-                                <tr data-entry-id="{{ $order->nsu_id }}">
+                            @foreach($xyz as $user)
+                                <tr data-entry-id="{{ $user->nsu_id }}">
                                     <td>
-                                        {{ $order->nsu_id ?? '' }}
+                                        {{ $user->nsu_id ?? '' }}
                                     </td>
                                     <td>
-                                        {{ $order->name ?? '' }}
+                                        {{ $user->name ?? '' }}
                                     </td>
                                     <td>
-                                        {{ $order->email ?? '' }}
+                                        {{ $user->email ?? '' }}
                                     </td>
                                     <td>
                                         <ul style="list-style-type: none">
@@ -58,7 +69,7 @@
                                                           </tr>
                                                       </thead>
                                                       <tbody>
-                                                        @foreach($order->course as $item)
+                                                        @foreach($user->course as $item)
                                                           <tr>
                                                               <td>{{ $item->course }}</td>
                                                               <td>{{ $item->section }}</td>
@@ -71,9 +82,9 @@
                                                 </li>
                                         </ul>
                                     </td>
-                                    <td><img data-toggle="modal"  data-target="#myModal" width="100px" height="50px" src="/images/{{ $order->advising_slip_img }}"></td>
-                                    <td><a href=""
-                                        class="btn btn-primary btn-sm">Approve</a></td>
+                                    <td><img data-toggle="modal"  data-target="#myModal" width="100px" height="50px" src="/images/{{ $user->advising_slip_img }}"></td>
+                                    <td><a href="{{ route('admin.users.approve', $user->id) }}"
+                                           class="btn btn-primary btn-sm">Approve</a></td>
 
                                 </tr>
                             @endforeach

@@ -41,7 +41,7 @@ class PriorityController extends Controller
     }
     public function delete($nsu_id)
     {   
-        $post =Order::where('nsu_id',$nsu_id)->first()->delete();;
+        $post =Order::where('nsu_id',$nsu_id)->first()->delete();
         return redirect('/orderList');
     }
 

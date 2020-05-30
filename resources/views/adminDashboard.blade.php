@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container"style="padding: 80px">
+<div class="container"style="margin-top:; padding:60px">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card"  style="height: 350px">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6">

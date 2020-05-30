@@ -18,7 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="css/pms.css">
+    <link href="{{ asset('css/pms.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
